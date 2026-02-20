@@ -1,1 +1,236 @@
 
+import React, { useState, useEffect } from 'react';
+import { Heart, Calendar, MessageCircle, PawPrint, Instagram, Twitter, Menu, X, ChevronRight } from 'lucide-react';
+
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const blogPosts = [
+    {
+      id: 1,
+      title: "今日のお昼寝タイム",
+      date: "2024.05.20",
+      excerpt: "日向ぼっこをしながら、お腹を出してぐっすり。見ているだけで疲れが吹き飛びます。",
+      image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=400"
+    },
+    {
+      id: 2,
+      title: "新しいおもちゃに大興奮！",
+      date: "2024.05.19",
+      excerpt: "一生懸命に追いかける姿に思わず笑ってしまいました。元気をお裾分けします。",
+      image: "https://images.unsplash.com/photo-1541364983171-a8ba01d95cfc?auto=format&fit=crop&q=80&w=400"
+    },
+    {
+      id: 3,
+      title: "雨の日のお散歩",
+      date: "2024.05.18",
+      excerpt: "カッパを着てちょっと不機嫌そうな顔も、たまらなく愛おしい瞬間です。",
+      image: "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&q=80&w=400"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-orange-50 font-sans text-gray-800">
+      {/* ナビゲーション */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-2' : 'bg-transparent py-4'}`}>
+        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
+          <div className="flex items-center gap-2 group cursor-pointer">
+            <div className="bg-orange-400 p-2 rounded-full text-white group-hover:rotate-12 transition-transform">
+              <PawPrint size={24} />
+            </div>
+            <h1 className="text-xl font-bold tracking-tight text-orange-800">わんわん毎日日記</h1>
+          </div>
+
+          {/* デスクトップメニュー */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#" className="hover:text-orange-500 transition-colors font-medium">ホーム</a>
+            <a href="#about" className="hover:text-orange-500 transition-colors font-medium">このサイトについて</a>
+            <a href="#blog" className="hover:text-orange-500 transition-colors font-medium">日記</a>
+            <a href="#contact" className="bg-orange-400 text-white px-5 py-2 rounded-full hover:bg-orange-500 transition-colors shadow-md">
+              幸せを受け取る
+            </a>
+          </div>
+
+          {/* モバイルメニューボタン */}
+          <button className="md:hidden text-orange-800" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* モバイルメニュー */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white absolute top-full left-0 w-full border-t border-orange-100 shadow-xl py-6 px-4 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4">
+            <a href="#" className="text-lg py-2 border-b border-orange-50">ホーム</a>
+            <a href="#about" className="text-lg py-2 border-b border-orange-50">このサイトについて</a>
+            <a href="#blog" className="text-lg py-2 border-b border-orange-50">日記</a>
+            <a href="#contact" className="text-lg py-2 text-orange-500 font-bold">お問い合わせ</a>
+          </div>
+        )}
+      </nav>
+
+      {/* ヒーローセクション */}
+      <header className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?auto=format&fit=crop&q=80&w=1600" 
+            alt="Hero Dog" 
+            className="w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-orange-50/20 via-transparent to-orange-50"></div>
+        </div>
+        
+        <div className="relative z-10 text-center px-4 max-w-3xl animate-in zoom-in duration-700">
+          <span className="bg-white/80 backdrop-blur px-4 py-1 rounded-full text-orange-600 text-sm font-bold mb-4 inline-block shadow-sm">
+            毎日更新中 🐾
+          </span>
+          <h2 className="text-4xl md:text-6xl font-extrabold text-orange-900 mb-6 leading-tight">
+            あなたの心に、<br />
+            ちいさな「癒やし」を届けたい。
+          </h2>
+          <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
+            仕事で疲れた日も、ちょっと寂しい夜も。<br />
+            わんこの何気ない日常が、あなたの明日を少しだけ明るくします。
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-orange-500 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-orange-600 transition-all shadow-lg hover:shadow-orange-200/50 flex items-center justify-center gap-2">
+              日記をのぞいてみる <ChevronRight size={20} />
+            </button>
+            <button className="bg-white text-orange-600 px-8 py-4 rounded-full text-lg font-bold hover:bg-orange-50 transition-all shadow-md border border-orange-100">
+              活動の想い
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* コンセプトセクション */}
+      <section id="about" className="py-20 px-4 bg-white rounded-[3rem] mx-2 md:mx-10 my-10 shadow-sm">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <img 
+                src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=800" 
+                alt="About Happy Dog" 
+                className="rounded-3xl shadow-2xl relative z-10"
+              />
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-orange-100 rounded-full z-0"></div>
+              <div className="absolute -top-6 -left-6 w-24 h-24 bg-orange-50 rounded-full z-0 border-4 border-white"></div>
+            </div>
+            <div>
+              <h3 className="text-3xl font-bold text-orange-800 mb-6 flex items-center gap-2">
+                <Heart className="text-pink-400 fill-pink-400" /> 毎日、ここでお待ちしています。
+              </h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                誰かに急かされる毎日、周りと比べてしまう心。そんな日常から少しだけ離れて、ただ「かわいい」を愛でる時間を作ってほしい。
+              </p>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                私たちは365日、変わらない愛くるしさを発信し続けています。それが、どこかで頑張っているあなたの「心の休憩所」になれば幸いです。
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-orange-50 p-4 rounded-2xl">
+                  <span className="block text-2xl font-bold text-orange-500">365+</span>
+                  <span className="text-sm text-gray-500">連続投稿日数</span>
+                </div>
+                <div className="bg-orange-50 p-4 rounded-2xl">
+                  <span className="block text-2xl font-bold text-orange-500">100%</span>
+                  <span className="text-sm text-gray-500">まごころ込めて</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ブログセクション */}
+      <section id="blog" className="py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h3 className="text-3xl font-bold text-orange-900 mb-2">わんわん日記</h3>
+              <p className="text-gray-600 italic">最新の成長記録をお届けします</p>
+            </div>
+            <button className="hidden sm:flex items-center gap-1 text-orange-600 font-bold hover:underline">
+              すべて見る <ChevronRight size={18} />
+            </button>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {blogPosts.map((post) => (
+              <article key={post.id} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+                <div className="h-56 overflow-hidden relative">
+                  <img 
+                    src={post.image} 
+                    alt={post.title} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-orange-600">
+                    NEW
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 text-gray-400 text-sm mb-3">
+                    <Calendar size={14} /> {post.date}
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-orange-600 transition-colors">
+                    {post.title}
+                  </h4>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  <button className="text-orange-500 font-bold flex items-center gap-1 hover:gap-2 transition-all">
+                    詳しく見る <ChevronRight size={16} />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* コンタクト / フッターセクション */}
+      <section id="contact" className="bg-orange-800 text-white pt-20 pb-10 px-4 rounded-t-[4rem]">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <MessageCircle className="mx-auto mb-6 text-orange-300" size={48} />
+          <h3 className="text-3xl font-bold mb-6">今日も一日、お疲れ様でした。</h3>
+          <p className="text-orange-100 mb-8 leading-relaxed">
+            サイトの感想や、「こんな写真が見たい！」というリクエスト、<br className="hidden md:block" />
+            あるいはただの独り言でも。お気軽にお寄せください。
+          </p>
+          <div className="flex justify-center gap-6">
+            <a href="#" className="bg-white/10 p-4 rounded-full hover:bg-white/20 transition-colors">
+              <Instagram size={24} />
+            </a>
+            <a href="#" className="bg-white/10 p-4 rounded-full hover:bg-white/20 transition-colors">
+              <Twitter size={24} />
+            </a>
+            <a href="#" className="bg-white/10 p-4 rounded-full hover:bg-white/20 transition-colors">
+              <Heart size={24} />
+            </a>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="bg-orange-400 p-1.5 rounded-full text-white">
+              <PawPrint size={16} />
+            </div>
+            <span className="font-bold text-lg">わんわん毎日日記</span>
+          </div>
+          <p className="text-orange-300 text-sm">
+            © 2024 WanWan Daily Diary. 忙しいあなたに、愛を込めて。
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default App;
